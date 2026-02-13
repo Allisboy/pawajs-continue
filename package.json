@@ -1,0 +1,28 @@
+{
+  "name": "pawajs-continue",
+  "version": "1.0.0",
+  "description": "Pawajs continuity initializer library for ssr",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Allisboy/pawajs-continue.git"
+  },
+  "keywords": [
+    "pawajs",
+    "pawa-ssr",
+    "continuity",
+    "ssr"
+  ],
+  "author": "Allwell oriso-owubo owupele",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Allisboy/pawajs-continue/issues"
+  },
+  "homepage": "https://github.com/Allisboy/pawajs-continue#readme",
+  "dependencies": {
+    "pawajs": "^1.3.8"
+  }
+}
