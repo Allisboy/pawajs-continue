@@ -62,8 +62,8 @@ const oldState=getCurrentContext()
         stateContexts._elementContext={...element._context}
             const number={notRender:null,index:null}
         children.forEach((value, index) => {
-          number.index=index
-          if(number.notRender && index <= number.notRender) return
+          number.index = index
+            if (number.notRender !== null && index <= number.notRender) return
           render(value,element._context,number,attr.name)
         })
         stateContexts._hasRun=true
@@ -95,8 +95,8 @@ const oldState=getCurrentContext()
         const number={notRender:null,index:null}
         
         children.forEach((value, index) => {
-          number.index=index
-          if(number.notRender && index <= number.notRender) return
+          number.index = index
+            if (number.notRender !== null && index <= number.notRender) return
           render(value,element._context,number)
         })
         stateContexts._hasRun=true
@@ -182,10 +182,8 @@ const oldState=getCurrentContext()
         children.forEach((value, index) => {
           isIndex++
           if(value.hasAttribute(attr.name)) value.removeAttribute(attr.name);
-          number.index=index
-          if(number.notRender && index <= number.notRender){
-            return
-          } 
+          number.index = index
+            if (number.notRender !== null && index <= number.notRender) return
           render(value,element._context,number,attr.name)
         })
             }
@@ -246,5 +244,5 @@ const oldState=getCurrentContext()
         console.log(error.message,error.stack)
         console.error(error.message,error.stack)
     }
-  
+   
 }

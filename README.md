@@ -44,7 +44,7 @@ if (!isServer()) {
 
 1.  **Server-Side**: `pawa-ssr` renders the HTML and embeds serialized data (props, state, context) into comments within the DOM.
 2.  **Client-Side**: `pawajs-continue` scans the DOM during the `pawaStartApp` process.
-3.  **Continuity**: Instead of creating new DOM elements, it continues by reading he markers or the serialized data, restores the state, and attaches reactive effects to the existing elements from the server rendering.
+3.  **Continuity**: Instead of creating new DOM elements, it continues by reading the markers or the serialized data, restores the state, and attaches reactive effects to the existing elements from the server rendering.
 
 ## API
 
