@@ -34,7 +34,7 @@ export const resume_text=(el,attr,isName)=>{
                   if (checkKeywordsExistence(el._staticContext,expression)) {
                     return ''
                   }else{
-    
+                    if(expression === '') return value
                     el._textContent[expression]=value
                     const func = new Function(...keys, `return ${expression}`);
                     return String(func(...values));

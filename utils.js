@@ -15,7 +15,7 @@ export const setProps=(context,attr,props,el)=>{
     const value=new Function(...keys,`
       return ()=>{
         try{
-      const prop= ${replaceTemplateOperators(attr.value)};
+      const prop= ${attr.value};
       if(prop === '')return prop
       return prop
       }catch(error){
@@ -28,10 +28,11 @@ export const setProps=(context,attr,props,el)=>{
       static:false
     }
             } catch (error) {
+              console.error(error.message,error.stack,el,'at props')
               setPawaDevError({
                   message:`error from ${el._componentName} prop :${attr.name} ${error.message}`,
                   error:error,
-                  template:this._template
+                  template:el?._template
                 })
             }
 }

@@ -1,6 +1,6 @@
 {
   "name": "pawajs-continue",
-  "version": "1.0.0",
+  "version": "1.0.4",
   "description": "Pawajs continuity initializer library for ssr",
   "main": "index.js",
   "scripts": {
