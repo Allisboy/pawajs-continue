@@ -49,6 +49,18 @@ const oldState=getCurrentContext()
         }
         comment.data=`<${name}>`
         endComment.data=`</${name}>`
+        const getCorrectContext=(contexts)=>{
+          /**@type {[]} */
+          const context=props.context
+          const paired=Object.entries(contexts)
+          if (context.length === paired.length) {
+           const onMatched= paired.filter(([key])=> !context.includes(key))
+            return onMatched > 0 ?true:false
+          }else{
+            return true
+          }
+
+        }
     if(!compo){
       
         const fakeComponent=new PawaComponent(()=>null)
@@ -165,6 +177,9 @@ const oldState=getCurrentContext()
             // console.log(el,el._context)
           }
             const childInsert=()=>{
+              // if (getCorrectContext(component._insert)) { // check if the component context doesn't match with the servers
+              //   return
+              // }
               element._component?._hook?.beforeMount?.forEach((bfm) => {
              const result= bfm(comment)
              if (typeof result === 'function') {
