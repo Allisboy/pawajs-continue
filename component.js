@@ -115,6 +115,14 @@ const oldState=getCurrentContext()
             keepContext(stateContexts._formerContext)
         return
     }
+    for (const [key,value] of Object.entries(prop)) {
+        let keys
+        if(key.includes('-')){
+               keys=key.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
+            delete prop[key]
+            prop[keys]=value
+          }
+    }
     for (const [key,value] of Object.entries(props.slots)) {
         prop[key]=()=>value
     }
