@@ -17,6 +17,7 @@ export const resume_text=(el,attr,isName)=>{
         el.childNodes.forEach((value, index) => {
           if(value.nodeType === 8 && value.data.startsWith('textEvaluator-')){
            textNodes=value.data.slice(14)
+           value.remove()
           }
         })
         const evaluate = () => {
@@ -70,7 +71,10 @@ export const resume_attribute=(el,attr,isName)=>{
         return
       }
       el.removeAttribute(attr.name)
-      const attrName=attr.name.slice(5)
+      let attrName=attr.name.slice(5)
+      if (attrName.startsWith('c-at')) {
+        attrName=attrName.slice(5)
+      }
       const attrValue=attr.value
       el._preRenderAvoid.push(attrName)
       // A set of attributes that are treated as booleans and are best controlled via properties.

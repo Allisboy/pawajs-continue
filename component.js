@@ -203,10 +203,16 @@ const oldState=getCurrentContext()
             })
             const number={notRender:null,index:null}
         children.forEach((value, index) => {
+          number.index=isIndex
           isIndex++
           if(value.hasAttribute(attr.name)) value.removeAttribute(attr.name);
-          number.index = index
-            if (number.notRender !== null && index <= number.notRender) return
+          if (number.notRender !== null && isIndex <= number.notRender){
+           return 
+          } 
+          const getId=value.getAttribute('by')
+          if (id !== getId) {
+            return
+          }
           render(value,element._context,number,attr.name)
         })
             }
