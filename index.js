@@ -20,16 +20,17 @@ export const resume_text=(el,attr,isName)=>{
            value.remove()
           }
         })
+        const context=el._context
         const evaluate = () => {
           try {
               // Always use original content from map for evaluation
               let value = textNodes
               const regex = /@{([^}]*)}/g;
-                const keys = Object.keys(el._context);
+                const keys = Object.keys(context);
                 const resolvePath = (path, obj) => {
                   return path.split('.').reduce((acc, key) => acc?.[key], obj);
                 };
-                const values = keys.map((key) => resolvePath(key, el._context));
+                const values = keys.map((key) => resolvePath(key, context));
                 if(!value)return
                 value = value.replace(regex, (match, expression) => {
                   if (checkKeywordsExistence(el._staticContext,expression)) {
@@ -82,6 +83,7 @@ export const resume_attribute=(el,attr,isName)=>{
       el._mainAttribute[attrName]=attr.value
       el._checkStatic()
       el.removeAttribute(attr.name)
+      const context=el._context
       const evaluate = () => {
         
         try{
@@ -89,11 +91,11 @@ export const resume_attribute=(el,attr,isName)=>{
         let value = attrValue;
         let isBoolean
         const regex = /@{([^}]*)}/g;
-          const keys = Object.keys(el._context);
+          const keys = Object.keys(context);
           const resolvePath = (path, obj) => {
             return path.split('.').reduce((acc, key) => acc?.[key], obj);
           };
-          const values = keys.map((key) => resolvePath(key, el._context));
+          const values = keys.map((key) => resolvePath(key, context));
           
           value = value.replace(regex, (match, expression) => {
             if(checkKeywordsExistence(el._staticContext,expression)){

@@ -1,4 +1,4 @@
-import { components,keepContext,render,getCurrentContext } from "pawajs/index.js"
+import { components,keepContext,render,getCurrentContext, HmrComponentMap } from "pawajs/index.js"
 import { PawaElement, PawaComment } from "pawajs/pawaElement.js"
 import  PawaComponent  from "pawajs/pawaComponent.js"
 import { createEffect } from "pawajs/reactive.js"
@@ -103,7 +103,7 @@ const oldState=getCurrentContext()
         }
          stateContexts._prop={children:'',...props._props}
             stateContexts._elementContext={...element._context}
-            stateContexts._static=[...stateContexts._static,...props.context]
+            stateContexts._static=[...oldState?._static,...props.context]
         const number={notRender:null,index:null}
         
         children.forEach((value, index) => {
@@ -149,6 +149,7 @@ const oldState=getCurrentContext()
         const component =element._component
         const stateContexts=setStateContext(component)
         stateContexts._resume=true
+        stateContexts._static=[...oldState?._static,...props.context]
         stateContexts._prop={children:props.children,...element._props}
             stateContexts._elementContext={...element._context}
             stateContexts._name=element._componentName
@@ -158,6 +159,21 @@ const oldState=getCurrentContext()
             }
             stateContexts._serializedData=props.data
             let isAwait=false
+     if (__pawaDev.tool) {
+      const id= crypto.randomUUID()
+      if (HmrComponentMap.has(stateContexts.component._filePath) && stateContexts.component._filePath) {
+        HmrComponentMap.get(stateContexts.component._filePath).push({id:id,template:el._template,el:el,stateContext:stateContexts})
+      }else{
+        HmrComponentMap.set(stateContexts.component._filePath,[{id:id,template:el._template,el:el,stateContext:stateContexts}])
+      }
+      el._setUnMount(()=>{
+        const array=HmrComponentMap.get(stateContexts.component._filePath)
+        if(array){
+          const index=array.findIndex(item => item.id === id)
+          if(index !== -1) array.splice(index,1)
+        }
+      })
+    }
             if(done){
                 const compoCall=component.component(apps)
                  isAwait=compoCall instanceof Promise
@@ -174,6 +190,8 @@ const oldState=getCurrentContext()
                 childInsert()
                 lifeCircle()
                 storeContext._hasRun=true
+              }).finally(()=>{
+                el._clearContext()
               })
             }else{
               Object.assign(element._context,stateContexts._insert)
@@ -184,10 +202,16 @@ const oldState=getCurrentContext()
             Object.assign(element._context,component._insert)
             // console.log(el,el._context)
           }
+          const context=element._context
             const childInsert=()=>{
-              // if (getCorrectContext(component._insert)) { // check if the component context doesn't match with the servers
-              //   return
-              // }
+              for (const key in component._insert) {
+                if (stateContexts._static.includes(key)) {
+                  const index=stateContexts._static.findIndex((v)=>v === key)
+                  if (index !== -1) {
+                    stateContexts._static.splice(index,1)
+                  }
+                }
+              }
               element._component?._hook?.beforeMount?.forEach((bfm) => {
              const result= bfm(comment)
              if (typeof result === 'function') {
@@ -213,7 +237,7 @@ const oldState=getCurrentContext()
           if (id !== getId) {
             return
           }
-          render(value,element._context,number,attr.name)
+          render(value,context,number,attr.name)
         })
             }
             if(!isAwait){
@@ -258,6 +282,7 @@ const oldState=getCurrentContext()
             }
             if(!isAwait){
               lifeCircle()
+              element._clearContext()
             }
             stateContexts._hasRun=true
             
