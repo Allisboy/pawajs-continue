@@ -16,7 +16,7 @@ export const resume_text=(el,attr,isName)=>{
         let textNodes
         el.childNodes.forEach((value, index) => {
           if(value.nodeType === 8 && value.data.startsWith('textEvaluator-')){
-           textNodes=value.data.slice(14)
+           textNodes=value.data.slice(14).replace('(//)','-')
            value.remove()
           }
         })
