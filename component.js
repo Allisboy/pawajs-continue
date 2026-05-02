@@ -4,9 +4,11 @@ import  PawaComponent  from "pawajs/pawaComponent.js"
 import { createEffect } from "pawajs/reactive.js"
 import { setProps } from "./utils.js"
 import {propsValidator} from 'pawajs/utils.js'
+const renderedComponents=new Set()
 export const resume_component=(el,attr,setStateContext,mapsPlugin,formerStateContext,
   pawaContext,stateWatch,{comment,endComment,children,name,id,serialized})=>{
-el.removeAttribute(attr.name)
+el.removeAttribute(attr.name.toLowerCase())
+if (renderedComponents.has(id)) return
 el._running=true  
     let appContext={
         _transportContext:{},
@@ -24,7 +26,10 @@ el._running=true
      */
     try{
 const oldState=getCurrentContext()
-        
+        if (!comment) {
+          console.log(el,attr);
+          
+        }
         PawaComment.Element(comment)
         const compo=components.get(name)
         const binary = atob(serialized.replace(/-/g, '+'));
@@ -82,9 +87,12 @@ const oldState=getCurrentContext()
         keepContext(stateContexts._formerContext)
         return
       }
+      // console.log(props);
+      
     // props setter 
     let isStatic=false
     for (const [key,value] of Object.entries(props.props)) {
+      
         const attr={
             name:key,
             value:value
@@ -123,6 +131,7 @@ const oldState=getCurrentContext()
             prop[keys]=value
           }
     }
+    
     for (const [key,value] of Object.entries(props.slots)) {
         prop[key]=()=>value
     }
@@ -134,7 +143,8 @@ const oldState=getCurrentContext()
     element._props=prop
     let isIndex=0
     //props setter
-    const validprops=element._component.validPropRule
+    
+    const validprops=element._component?.validPropRule
     let done=true
     if(validprops && Object.entries(validprops).length > 0){
       done= propsValidator(validprops,{...element._props},element._componentName,element._template,element)
@@ -143,8 +153,7 @@ const oldState=getCurrentContext()
       comment._terminateByComponent(endComment)
     }
     const apps={
-        children:prop.children,
-        ...element._props
+        ...prop
     }
         const component =element._component
         const stateContexts=setStateContext(component)
@@ -215,7 +224,7 @@ const oldState=getCurrentContext()
               element._component?._hook?.beforeMount?.forEach((bfm) => {
              const result= bfm(comment)
              if (typeof result === 'function') {
-               element._unMountFunctions.push(result)
+               element._beforeUnMountFunctions.push(result)
              }
             })
             
@@ -234,12 +243,15 @@ const oldState=getCurrentContext()
            return 
           } 
           const getId=value.getAttribute('by')
+          
           if (id !== getId) {
             return
           }
           render(value,context,number,attr.name)
         })
+        renderedComponents.add(id)
             }
+
             if(!isAwait){
               childInsert()
             }
@@ -262,7 +274,7 @@ const oldState=getCurrentContext()
                   if (hook.deps?.component) {
                     createEffect(() => {
                       return effect()
-                    },element) 
+                    },element,hook.deps?.update) 
                   } else {
                     createEffect(() => {
                       return effect()

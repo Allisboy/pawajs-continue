@@ -34,7 +34,7 @@ export const resume_text=(el,attr,isName)=>{
                 if(!value)return
                 value = value.replace(regex, (match, expression) => {
                   if (checkKeywordsExistence(el._staticContext,expression)) {
-                    return ''
+                    return value
                   }else{
                     if(expression === '') return value
                     el._textContent[expression]=value
@@ -99,7 +99,7 @@ export const resume_attribute=(el,attr,isName)=>{
           
           value = value.replace(regex, (match, expression) => {
             if(checkKeywordsExistence(el._staticContext,expression)){
-              return ''
+              return value
             }else{
               const func = new Function(...keys, `return ${expression}`);
               const result = func(...values);

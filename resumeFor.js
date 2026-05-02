@@ -2,6 +2,8 @@ import { createEffect } from 'pawajs/reactive.js';
 import { PawaComment, PawaElement } from 'pawajs/pawaElement.js';
 import { processNode, pawaWayRemover, safeEval, getEvalValues, setPawaDevError, getComment,getEndComment, checkKeywordsExistence } from 'pawajs/utils.js';
 import { merger_for } from 'pawajs/merger/for.js';
+import { keepContext, render } from 'pawajs/index.js';
+
 /**
  * @param {HTMLElement | PawaElement} el
  * @param {{value:string,name:string}} attr,
@@ -79,4 +81,36 @@ export const resume_for=(el,attr,stateContext,{comment,endComment,id,children,da
     createEffect(()=>{
         evaluate()
     })
+    try {
+        
+        const func=el.safeEval(context, arrayName, 'for-each');
+        const array=func(...getEvalValues(context))
+        if (Array.isArray(array)) {
+            
+             const number={notRender:null,index:null}
+                elementArray.forEach((keyComment) => {
+                    if(keyComment.nextElementSibling === null) return
+                    const element=keyComment.nextElementSibling
+                    const i=Number(keyComment._index)
+                    const itemContext = {
+                        ...context,
+                        [arrayItem]: array[i],
+                        [indexes]: i,
+                    }
+                    if (stateContext._hasRun) {
+                        stateContext._hasRun = false
+                        keepContext(stateContext)
+                    }
+                    render(element,{...itemContext},{notRender:false,index:null})
+                    stateContext._hasRun = true
+                })
+        }
+    } catch (error) {
+        setPawaDevError({
+                message: `Error from For directive ${error.message}`,
+                error: error,
+                template: el._template,
+                el: el
+            })
+    }
 }

@@ -1,6 +1,6 @@
 {
   "name": "pawajs-continue",
-  "version": "1.0.16",
+  "version": "1.0.23",
   "description": "Pawajs continuity initializer library for ssr",
   "main": "index.js",
   "type": "module",
@@ -24,6 +24,6 @@
   },
   "homepage": "https://github.com/Allisboy/pawajs-continue#readme",
   "dependencies": {
-    "pawajs": "^1.4.25"
+    "pawajs": "^1.4.39"
   }
 }
