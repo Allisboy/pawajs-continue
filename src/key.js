@@ -1,4 +1,4 @@
-import { resumer } from ".."
+import { resumer } from "../index.js"
 import { getComponentGraph } from "pawajs/src/component"
 import { initializer } from "pawajs/src/control-flow/key"
 

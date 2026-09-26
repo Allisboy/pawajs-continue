@@ -1,4 +1,4 @@
-import { resumer } from "..";
+import { resumer } from "../index.js";
 
 export const awaits=(hydrate,graph,context)=>{
     const inLoadingState=!hydrate.resolved

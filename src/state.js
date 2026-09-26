@@ -1,4 +1,4 @@
-import { resumer } from ".."
+import { resumer } from "../index.js"
 import { $state } from "pawajs"
 
 export const state=(context,hydrate,graph)=>{

@@ -1,4 +1,4 @@
-import { resumer } from ".."
+import { resumer } from "../index.js"
 import { getComponentGraph } from "pawajs/src/component"
 import { initialize } from "pawajs/src/control-flow/if"
 import { setChained } from "pawajs/src/control-flow/utils"

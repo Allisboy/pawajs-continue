@@ -1,4 +1,4 @@
-import { resumer } from ".."
+import { resumer } from "../index.js"
 
 export const template=(hydrate,graph,context)=>{
     graph.nodeType='template'

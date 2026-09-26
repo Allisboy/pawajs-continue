@@ -1,4 +1,4 @@
-import { resumer } from "..";
+import { resumer } from "../index.js";
 import { getDevelopment } from "pawajs";
 import {
   getComponentGraph,
@@ -9,7 +9,7 @@ import { addLazyComponentElement, components, hmrComponentsMap, lazyComponents, 
 import { triggerLazyLoad } from "pawajs/src/hooks/registerComponent";
 import { createEffect } from "pawajs/src/reactive";
 import { safeEval, splitAndAdd } from "pawajs/src/utils";
-import { reportContinueError } from "./dev";
+import { reportContinueError } from "./dev.js";
 
 export const component = (hydrate, graph, context) => {
   const Initialize = () => {
@@ -160,11 +160,12 @@ export const component = (hydrate, graph, context) => {
             const result=effect()
             if(typeof result === 'function')graph.unMount.push(result)
         }
-    graph.setContext({ ...graph.context });
+    graph.setContext({ ...context,...graph.context });
     const newContext = {
       ...context,
       ...graph.context,
     };
+    graph.context={}
     for (const child of hydrate.children) {
       resumer(child, graph, newContext);
     }

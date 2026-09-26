@@ -1,12 +1,12 @@
 import { PawaRender } from "pawajs/src/graph"
-import { awaits } from "./src/await"
-import { component } from "./src/component"
-import { condition } from "./src/condition"
-import { forEach } from "./src/for"
-import { key } from "./src/key"
-import { state } from "./src/state"
-import { template } from "./src/template"
-import { reportContinueError } from "./src/dev"
+import { awaits } from "./src/await.js"
+import { component } from "./src/component.js"
+import { condition } from "./src/condition.js"
+import { forEach } from "./src/for.js"
+import { key } from "./src/key.js"
+import { state } from "./src/state.js"
+import { template } from "./src/template.js"
+import { reportContinueError } from "./src/dev.js"
 
 export const resumer=(hydrate,graph,context)=>{
     const contexts={...context}
