@@ -1,12 +1,14 @@
 import { resumer } from "../index.js";
-
+import { getComponentGraph, setComponentGraph } from "pawajs";
 export const awaits=(hydrate,graph,context)=>{
+    const componentGraph=getComponentGraph()
     const inLoadingState=!hydrate.resolved
     hydrate.resolved=false
     const id=hydrate.id
     graph.nodeType="await"
     const run=(hy,streamed=false)=>{
         if (streamed) {
+        setComponentGraph(componentGraph)
         replaceIn(hy)
         return
        }

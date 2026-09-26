@@ -1,4 +1,4 @@
-import { PawaRender } from "pawajs/src/graph"
+import { PawaRender } from "pawajs"
 import { awaits } from "./src/await.js"
 import { component } from "./src/component.js"
 import { condition } from "./src/condition.js"

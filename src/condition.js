@@ -1,7 +1,7 @@
 import { resumer } from "../index.js"
-import { getComponentGraph } from "pawajs/src/component"
-import { initialize } from "pawajs/src/control-flow/if"
-import { setChained } from "pawajs/src/control-flow/utils"
+import { getComponentGraph } from "pawajs"
+import { initialize } from "pawajs/src/control-flow/if.js"
+import { setChained } from "pawajs/src/control-flow/utils.js"
 
 export const condition=(hydrate,graph,context)=>{
     const getStore=document.querySelector(`[p\\:store="${hydrate.id}"]`)

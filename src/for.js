@@ -1,8 +1,8 @@
 import { resumer } from "../index.js";
-import { getComponentGraph } from "pawajs/src/component";
-import { initializer } from "pawajs/src/control-flow/for";
-import { PawaRender } from "pawajs/src/graph";
-import { safeEval } from "pawajs/src/utils";
+import { getComponentGraph } from "pawajs";
+import { initializer } from "pawajs/src/control-flow/for.js";
+import { PawaRender } from "pawajs/src/graph/index.js";
+import { safeEval } from "pawajs/src/utils.js";
 
 export const forEach=(hydrate,graph,context)=>{
     const getStore=document.querySelector(`[p\\:store="${hydrate.id}"]`)

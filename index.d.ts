@@ -1,3 +1,5 @@
+import type { PawaGraph } from 'pawajs';
+
 /** Serialized hydration node emitted by Pawajs/pawa-ssr. */
 export interface HydrationNode {
   id: string;
@@ -16,18 +18,13 @@ export interface HydrationTree {
   [key: string]: unknown;
 }
 
-/** Runtime graph used by Pawajs while resuming a hydration node. */
-export interface RenderGraph {
-  children: unknown[];
-  ref?: unknown;
-  render(element: Element, renderOnClient?: boolean): unknown;
-  [key: string]: unknown;
-}
+/** Pawajs runtime graph used while resuming a hydration node. */
+export type RenderGraph = PawaGraph;
 
 /** Resume one serialized node against its existing DOM and Pawajs graph. */
 export declare function resumer(
   hydrate: HydrationNode,
-  graph: RenderGraph,
+  graph: PawaGraph,
   context: Record<string, unknown>,
 ): void | false;
 

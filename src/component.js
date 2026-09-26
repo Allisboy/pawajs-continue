@@ -3,12 +3,12 @@ import { getDevelopment } from "pawajs";
 import {
   getComponentGraph,
   setComponentGraph,
-} from "pawajs/src/component";
-import { propsValidator } from "pawajs/src/component/utils";
-import { addLazyComponentElement, components, hmrComponentsMap, lazyComponents, snapshotInsert } from "pawajs/src/global";
-import { triggerLazyLoad } from "pawajs/src/hooks/registerComponent";
-import { createEffect } from "pawajs/src/reactive";
-import { safeEval, splitAndAdd } from "pawajs/src/utils";
+} from "pawajs";
+import { propsValidator } from "pawajs/src/component/utils.js";
+import { addLazyComponentElement, components, hmrComponentsMap, lazyComponents, snapshotInsert } from "pawajs/src/global.js";
+import { triggerLazyLoad } from "pawajs/src/hooks/registerComponent.js";
+import { createEffect } from "pawajs/src/reactive.js";
+import { safeEval, splitAndAdd } from "pawajs/src/utils.js";
 import { reportContinueError } from "./dev.js";
 
 export const component = (hydrate, graph, context) => {
@@ -223,7 +223,9 @@ export const component = (hydrate, graph, context) => {
         }
       graph.render(element, render);
     }
-
+    if(!getDevelopment()){
+      graph.context={}
+    }
     graph.firstTime = false;
     Promise.resolve().then(() => {
       for (const effect of graph.arrayEffect) {
