@@ -1,6 +1,6 @@
 {
-  "name": "pawajs-continue",
-  "version": "2.0.0-beta-6",
+  "name": "@pawajs/continue",
+  "version": "2.0.0",
   "description": "Pawajs continuity initializer library for ssr",
   "main": "index.js",
   "type": "module",
