@@ -1,11 +1,8 @@
 import { resumer } from "../index.js"
-import { getComponentGraph } from "pawajs"
-import { initialize } from "pawajs/src/control-flow/if.js"
-import { setChained } from "pawajs/src/control-flow/utils.js"
+import { getComponentGraph, ifInitializer as initialize, setChained } from "pawajs"
 
 export const condition=(hydrate,graph,context)=>{
     const getStore=document.querySelector(`[p\\:store="${hydrate.id}"]`)
-    getStore.remove()
     const ifElement=getStore?.content.querySelector('[if]') 
     const chained=[{
         exp:ifElement.getAttribute('if'),
@@ -15,10 +12,9 @@ export const condition=(hydrate,graph,context)=>{
     const componentGraph=getComponentGraph()
     const comment = document.createComment('condition')
     graph.control = comment;
-    const inplaceElement=document.querySelector(`[p\\:id="${hydrate.id}"]`)
-    if (inplaceElement) {
-        inplaceElement.parentElement.insertBefore(comment, inplaceElement)
-    }
+  
+        getStore.replaceWith(comment)
+    
     for (const child of Array.from(hydrate.children)) {
         resumer(child,graph,context)
     }

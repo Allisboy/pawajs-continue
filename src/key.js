@@ -1,6 +1,5 @@
 import { resumer } from "../index.js"
-import { getComponentGraph } from "pawajs"
-import { initializer } from "pawajs/src/control-flow/key.js"
+import { getComponentGraph, keyInitializer as initializer } from "pawajs"
 
 export const key=(hydrate,graph,context)=>{
     const getStore=document.querySelector(`[p\\:store="${hydrate.id}"]`)

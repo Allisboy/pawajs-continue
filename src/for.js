@@ -1,8 +1,5 @@
 import { resumer } from "../index.js";
-import { getComponentGraph } from "pawajs";
-import { initializer } from "pawajs/src/control-flow/for.js";
-import { PawaRender } from "pawajs/src/graph/index.js";
-import { safeEval } from "pawajs/src/utils.js";
+import { getComponentGraph, forInitializer as initializer,PawaRender,safeEval } from "pawajs";
 
 export const forEach=(hydrate,graph,context)=>{
     const getStore=document.querySelector(`[p\\:store="${hydrate.id}"]`)
@@ -43,6 +40,7 @@ export const forEach=(hydrate,graph,context)=>{
         
         const {renderGraph}=PawaRender(graph,itemContext)
         renderGraph.nodeType='for-key'
+        
         if (typeof child === 'string' || typeof child === 'number') {
             renderGraph.key=child.replace(`${hydrate.id}-`, '')
             forKeyHydrate.ref=''
@@ -55,16 +53,16 @@ export const forEach=(hydrate,graph,context)=>{
                for (const forKeyHy of findkey) {
                 
                    resumer(forKeyHy,renderGraph,itemContext)
-               }
-            
-        }else{
-            renderGraph.key=child.forkey.replace(`${hydrate.id}-`, '')
-            resumer(child,renderGraph,itemContext)
+                }
+                
+            }else{
+                renderGraph.key=child.forkey.replace(`${hydrate.id}-`, '')
+                resumer(child,renderGraph,itemContext)
         }
     }
     hydrate.children=children
     hydrate.ref='ref'
-    const {evaluate}=initializer(element,attr,context,comment,graph,componentGraph,arrayName,arrayItem,indexes,forKey,{enter:true})
+    const {evaluate}=initializer(element,attr,{...context},comment,graph,componentGraph,arrayName,arrayItem,indexes,forKey,{enter:true})
     evaluate()
     const ref=graph.children[0]
     const el=ref.getElement()
